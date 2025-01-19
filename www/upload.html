@@ -125,13 +125,22 @@
             };
 
             // Handle upload completion
-            xhr.onload = function() {
-                if (xhr.status === 200) {
+            xhr.onload = function () {
+                if (xhr.status === 302) {
+                    // 解析响应头中的 Location 并重定向
+                    const redirectURL = xhr.getResponseHeader('Location');
+                    if (redirectURL) {
+                        window.location.href = redirectURL;
+                    } else {
+                        document.getElementById('progress-text').innerText = 'Redirection failed: No location provided.';
+                    }
+                } else if (xhr.status === 200) {
                     document.getElementById('progress-text').innerText = 'Upload Complete!';
                 } else {
                     document.getElementById('progress-text').innerText = 'Upload Failed. Please try again.';
                 }
             };
+
 
             // Handle error
             xhr.onerror = function() {

@@ -3,7 +3,7 @@ TARGET = bin/cloud
 
 # 编译器与选项
 CXX = g++
-CXXFLAGS = -std=c++17 -I./include
+CXXFLAGS = -g -std=c++17 -I./include
 LDFLAGS = -ljsoncpp -lpthread -lstdc++fs -lmysqlcppconn -L./lib -lbundle
 
 # 源文件

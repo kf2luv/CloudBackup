@@ -13,44 +13,9 @@
 #include "bundle.h"
 #include "log/ckflog.hpp"
 
-//mysql
-#include <cppconn/driver.h>
-#include <cppconn/connection.h>
-#include <cppconn/prepared_statement.h>
-#include <cppconn/resultset.h>
-#include <cppconn/exception.h>
-
 namespace Util
 {
     namespace fs = std::experimental::filesystem;
-
-    bool checkUser(std::shared_ptr<sql::Connection> conn, const std::string &username, const std::string &password)
-    {
-        try
-        {
-            // 创建预编译语句
-            std::unique_ptr<sql::PreparedStatement> pstmt(
-                conn->prepareStatement("SELECT COUNT(*) FROM users WHERE username = ? AND password = ?"));
-
-            // 设置参数
-            pstmt->setString(1, username);
-            pstmt->setString(2, password);
-
-            // 执行查询
-            std::unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
-
-            // 检查结果
-            if (res->next())
-            {
-                return res->getInt(1) > 0; // 如果匹配的用户数大于 0，则验证成功
-            }
-        }
-        catch (sql::SQLException &e)
-        {
-            return false;
-        }
-        return false;
-    }
 
     // 文件工具类
     class FileUtil
@@ -122,6 +87,8 @@ namespace Util
     private:
         pthread_rwlock_t *_wrlock;
     };
+
+
 }
 
 Util::FileUtil::FileUtil(const std::string &path)
@@ -313,7 +280,6 @@ bool Util::FileUtil::remove()
 {
     return fs::remove(_path);
 }
-
 
 bool Util::JsonUtil::serialize(const Json::Value &root, std::string *str)
 {

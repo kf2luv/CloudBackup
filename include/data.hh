@@ -10,18 +10,18 @@ namespace Cloud
     typedef struct BackupInfo // 备份文件数据
     {
         bool pack_flag;        // 文件是否已压缩的标志
-        bool is_packing;        //文件正在压缩中
+        bool is_packing;       // 文件正在压缩中
         size_t fsize;          // 文件大小
         time_t atime;          // 最近访问时间
         time_t mtime;          // 最近修改时间
-        std::string real_path; // 文件实际存储路径
+        std::string real_path; // 文件备份包存储路径
         std::string pack_path; // 文件压缩包存储路径
         std::string url;       // 文件url
+        int userID;            // 所属用户id
 
         BackupInfo();
-        BackupInfo(const std::string &realPath);
+        BackupInfo(const std::string &backupPath, int userId);
     } BackupInfo;
-    BackupInfo *createBackupInfo(const std::string &realPath);
 
     class BackupInfoManager // 文件数据管理器
     {
@@ -50,31 +50,33 @@ Cloud::BackupInfo::BackupInfo() : is_packing(false)
 {
 }
 
-Cloud::BackupInfo::BackupInfo(const std::string &realPath)
+Cloud::BackupInfo::BackupInfo(const std::string &backupPath, int userId)
 {
-    // 根据文件实际存储路径，填充文件数据
-    Util::FileUtil fu(realPath);
+    // 根据文件实际存储路径，填充文件元信息
+    Util::FileUtil fu(backupPath);
     if (!fu.isExists())
     {
-        DF_ERROR("%s 文件不存在", realPath.c_str());
+        DF_ERROR("%s 文件不存在", backupPath.c_str());
         return;
     }
+
     pack_flag = false;
     is_packing = false;
     fsize = fu.fileSize();
     atime = fu.lastAccessTime();
     mtime = fu.lastModTime();
-    real_path = realPath;
-    // "/filedir/a.txt" -> "/packdir/a.txt.lz"
+    real_path = backupPath;
+    userID = userId;
+
+    //拼接pack_path和url
     Cloud::Config *conf = Cloud::Config::getInstance();
-    pack_path = conf->getPackDir() + fu.fileName() + conf->getArcSuffix();
-    url = conf->getUrlPrefix() + fu.fileName();
+    std::string suffix = backupPath.substr(conf->getBackupDir().size());
+    pack_path = conf->getPackDir() + suffix + conf->getArcSuffix();
+    url = conf->getUrlPrefix() + suffix;
+
+    _logger->_debug("real_path: %s, pack_path: %s, url: %s", real_path.c_str(), pack_path.c_str(), url.c_str());
 }
 
-Cloud::BackupInfo *Cloud::createBackupInfo(const std::string &realPath)
-{
-    return new Cloud::BackupInfo(realPath);
-}
 
 // BackupInfoManager
 Cloud::BackupInfoManager::BackupInfoManager()
@@ -133,6 +135,8 @@ bool Cloud::BackupInfoManager::initLoad()
         bi.pack_path = item["pack_path"].asString();
         bi.real_path = item["real_path"].asString();
         bi.url = item["url"].asString();
+        bi.userID = item["userID"].asInt();
+        
         insert(bi.url, bi);
     }
 
@@ -164,6 +168,7 @@ bool Cloud::BackupInfoManager::storage()
         item["real_path"] = v.real_path;
         item["pack_path"] = v.pack_path;
         item["url"] = v.url;
+        item["userID"] = v.userID;
 
         root.append(item);
     }

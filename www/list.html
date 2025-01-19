@@ -81,11 +81,12 @@
 <body>
 
     <div class="container">
-        <h1>Welcome</h1>
+        <!-- 欢迎信息将在前端动态设置 -->
+        <h1 id="welcome-message">Welcome</h1> 
         <ul id="file-list">
             <!-- 文件下载链接将动态生成并插入此处 -->
         </ul>
-
+    
         <div class="upload-link">
             <a href="uploadShow">Upload File</a>
         </div>
@@ -96,32 +97,37 @@
         async function fetchFileList() {
             try {
                 const response = await fetch('/file-list');
-                const files = await response.json();
-
+                const data = await response.json();
+    
+                // 设置欢迎信息
+                const username = data.username;
+                const welcomeTitle = document.querySelector('h1');
+                welcomeTitle.textContent = `Welcome,  ${username}`;
+    
                 // 获取文件列表容器
                 const fileListUl = document.getElementById('file-list');
-                fileListUl.innerHTML = '';  // 清空之前的内容
-
+                fileListUl.innerHTML = ''; // 清空之前的内容
+    
                 // 遍历文件列表，生成 HTML 结构
-                files.forEach(file => {
+                data.files.forEach(file => {
                     // 创建文件项的容器
                     const fileItemLi = document.createElement('li');
                     fileItemLi.className = 'file-item';
-
+    
                     // 创建下载链接
                     const fileLink = document.createElement('a');
                     fileLink.href = file.downloadUrl;
                     fileLink.textContent = file.fileName;
-
+    
                     // 创建文件信息
                     const fileInfo = document.createElement('span');
                     fileInfo.className = 'file-info';
                     fileInfo.innerHTML = `Size: <strong>${file.fileSize}</strong><span>, Last Modified: <strong>${file.lastModified}</strong></span>`;
-
+    
                     // 将链接和信息添加到文件项中
                     fileItemLi.appendChild(fileLink);
                     fileItemLi.appendChild(fileInfo);
-
+    
                     // 将文件项添加到文件列表容器中
                     fileListUl.appendChild(fileItemLi);
                 });
@@ -129,7 +135,7 @@
                 console.error('Error fetching file list:', error);
             }
         }
-
+    
         // 页面加载时获取文件列表
         window.onload = fetchFileList;
     </script>

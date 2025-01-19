@@ -35,62 +35,69 @@ bool Cloud::HotManager::run()
     //不断扫描backup_dir文件夹中
     //发现非热点文件，进行压缩
 
-     // 1.获取备份文件目录
-    std::string backup_dir = Config::getInstance()->getBackupDir();
-    Util::FileUtil fu(backup_dir);
+    // 1.获取备份文件目录
+    Util::FileUtil dir(Config::getInstance()->getBackupDir());
 
     //等待备份文件目录backup_dir被创建
-    while(!fu.isExists()){
+    while(!dir.isExists()){
         sleep(1);
     }
 
+    std::vector<std::string> backupDirs;
     while (true)
     {
-        // 2.获取备份文件目录中的所有文件
-        std::vector<std::string> backups;
-        fu.scanDirectory(backups);
-
-        if (backups.empty())
+        // 2.获取backup_dir中的所有子目录
+        dir.scanDirectory(backupDirs);
+        if (backupDirs.empty())
         {
             usleep(1000);
             continue;
         }
 
-        // 3.对每一个备份文件进行热点判断
-        for (const std::string &backup : backups)
+        // 3.遍历每个子目录的每一个文件的路径
+        std::vector<std::string> backups;
+        for (const std::string &backupDir : backupDirs)
         {
-            // 获取备份信息
-            BackupInfo bi;
-            if (_biManager->getOneByRealPath(backup, &bi) == false)
+            Util::FileUtil subDir(backupDir);
+            subDir.scanDirectory(backups);
+            
+            for (const std::string &backupPath : backups)
             {
-                // 备份信息不存在
-                // _logger->_warn("%s: 备份信息不存在", backup.c_str());
-                bi = BackupInfo(backup);
+                // 获取备份信息
+                BackupInfo bi;
+                _biManager->getOneByRealPath(backupPath, &bi);
+                
+                // if (_biManager->getOneByRealPath(backupPath, &bi) == false)
+                // {
+                //     // 备份信息不存在
+                //     bi = BackupInfo(backupPath);
+                // }
+
+                // 三种情况，不用处理
+                // 文件不存在 or 正在进行压缩 or 是热点文件
+
+                // 为什么遍历到文件，文件还可能出现不存在的情况？
+                // 因为这里获取完备份信息bi（副本）时，可能刚好bi (本体) 被（处理压缩工作的线程）修改了
+                // 即文件异步压缩完成，从backup_dir中删除，所以文件不存在于扫描的文件夹中了
+
+                if (!Util::FileUtil(backupPath).isExists() || bi.is_packing || isHot(backupPath))
+                {
+                    continue;
+                }
+
+                // 进入非热点文件的处理
+                bi.is_packing = true;
+                if (_biManager->update(bi.url, bi))
+                {
+                    // 异步处理：将非热点文件处理工作（包括压缩、删除）交给线程池，由线程池中的工作线程处理压缩逻辑
+                    auto func = std::bind(&Cloud::HotManager::NotHotHandler, this, std::placeholders::_1);
+                    auto ret = ckf::ThreadPool::getInstance().submit(ckf::ThreadPool::LV1, func, bi);
+                }
             }
-
-
-
-            // 文件不存在 or 正在进行压缩 or 是热点文件
-            // 三种情况，不用处理
-
-            // 为什么遍历到文件，文件还可能出现不存在的情况？
-            // 因为这里获取完备份信息bi（副本）时，可能刚好bi (本体) 被（处理压缩工作的线程）修改了
-            // 即文件异步压缩完成，从backup_dir中删除，所以文件不存在于扫描的文件夹中了
-
-            if (!Util::FileUtil(backup).isExists() || bi.is_packing || isHot(backup))
-            {
-                continue;
-            }
-
-            // 进入非热点文件的处理
-            bi.is_packing = true;
-            if (_biManager->update(bi.url, bi))
-            {
-                // 异步处理：将非热点文件处理工作（包括压缩、删除）交给线程池，由线程池中的工作线程处理压缩逻辑
-                auto func = std::bind(&Cloud::HotManager::NotHotHandler, this, std::placeholders::_1);
-                auto ret = ckf::ThreadPool::getInstance().submit(ckf::ThreadPool::LV1, func, bi);
-            }
+            backups.clear();
         }
+
+        backupDirs.clear();
         usleep(1000);
     }
     return true;

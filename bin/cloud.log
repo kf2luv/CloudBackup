@@ -1,5 +1,41 @@
-[15:9:9][DEBUG][140260212179392][CloudLogger][./include/data.hh:90]	数据管理模块-备份信息初始化成功, 当前文件个数 0
-[15:9:9][DEBUG][140260203689728][CloudLogger][./include/service.hh:51]	数据库连接成功
-[15:9:38][DEBUG][140260186904320][CloudLogger][./include/service.hh:195]	用户上传文件已存入: ./backup_dir/gorder.PNG
-[15:9:49][DEBUG][140260050716416][CloudLogger][./include/hot.hh:101]	非热点文件 ./backup_dir/gorder.PNG, 开始处理
-[15:9:49][DEBUG][140260050716416][CloudLogger][./include/hot.hh:124]	非热点文件 ./pack_dir/gorder.PNG.lz, 处理成功 - 用时: 0
+[1:3:41][DEBUG][140579663966656][CloudLogger][./include/data.hh:92]	数据管理模块-备份信息初始化成功, 当前文件个数 3
+[1:3:41][DEBUG][140579505694464][CloudLogger][./include/hot.hh:108]	非热点文件 backup_dir/00004/test1.txt, 开始处理
+[1:3:41][DEBUG][140579497301760][CloudLogger][./include/hot.hh:108]	非热点文件 backup_dir/00004/仿muduo高并发服务器.md, 开始处理
+[1:3:41][DEBUG][140579488909056][CloudLogger][./include/hot.hh:108]	非热点文件 backup_dir/00003/日志系统.pdf, 开始处理
+[1:3:41][DEBUG][140579505694464][CloudLogger][./include/hot.hh:131]	非热点文件 pack_dir/00004/test1.txt.lz, 处理成功 - 用时: 0
+[1:3:41][DEBUG][140579497301760][CloudLogger][./include/hot.hh:131]	非热点文件 pack_dir/00004/仿muduo高并发服务器.md.lz, 处理成功 - 用时: 0
+[1:3:42][DEBUG][140579488909056][CloudLogger][./include/hot.hh:131]	非热点文件 pack_dir/00003/日志系统.pdf.lz, 处理成功 - 用时: 1
+[1:4:39][DEBUG][140579514087168][CloudLogger][./include/service.hh:152]	sessionID: 173730627985046982 已保存, 用户id: 4
+[1:4:53][DEBUG][140579605120768][CloudLogger][./include/service.hh:281]	热点文件: backup_dir/00004/test1.txt 处理成功
+[1:5:4][DEBUG][140579505694464][CloudLogger][./include/hot.hh:108]	非热点文件 backup_dir/00004/test1.txt, 开始处理
+[1:5:4][DEBUG][140579505694464][CloudLogger][./include/hot.hh:131]	非热点文件 pack_dir/00004/test1.txt.lz, 处理成功 - 用时: 0
+[1:7:1][DEBUG][139928587989440][CloudLogger][./include/data.hh:92]	数据管理模块-备份信息初始化成功, 当前文件个数 3
+[1:7:38][DEBUG][139928490997504][CloudLogger][./include/service.hh:152]	sessionID: 173730645804323905 已保存, 用户id: 3
+[1:7:47][DEBUG][139928482604800][CloudLogger][./include/service.hh:281]	热点文件: backup_dir/00003/日志系统.pdf 处理成功
+[1:7:58][DEBUG][139928138667776][CloudLogger][./include/hot.hh:108]	非热点文件 backup_dir/00003/日志系统.pdf, 开始处理
+[1:7:58][DEBUG][139928138667776][CloudLogger][./include/hot.hh:131]	非热点文件 pack_dir/00003/日志系统.pdf.lz, 处理成功 - 用时: 0
+[1:8:31][DEBUG][139928465819392][CloudLogger][./include/service.hh:209]	用户会话存在: sessionID: 173730645804323905, 用户id: 3
+[1:8:31][DEBUG][139928465819392][CloudLogger][./include/service.hh:225]	用户文件上传成功: backup_dir/00003/云备份.md
+[1:8:31][DEBUG][139928465819392][CloudLogger][./include/data.hh:77]	real_path: backup_dir/00003/云备份.md, pack_path: pack_dir/00003/云备份.md.lz, url: /download/00003/云备份.md
+[1:8:31][DEBUG][139928465819392][CloudLogger][./include/service.hh:239]	用户上传文件已存入: backup_dir/00003/云备份.md
+[1:8:42][DEBUG][139928155453184][CloudLogger][./include/hot.hh:108]	非热点文件 backup_dir/00003/云备份.md, 开始处理
+[1:8:42][DEBUG][139928155453184][CloudLogger][./include/hot.hh:131]	非热点文件 pack_dir/00003/云备份.md.lz, 处理成功 - 用时: 0
+[1:20:32][DEBUG][140374335095232][CloudLogger][./include/data.hh:92]	数据管理模块-备份信息初始化成功, 当前文件个数 4
+[1:20:48][DEBUG][140374309820160][CloudLogger][./include/service.hh:154]	sessionID: 17373072483132071 已保存, 用户id: 3
+[1:21:7][DEBUG][139791248982464][CloudLogger][./include/data.hh:92]	数据管理模块-备份信息初始化成功, 当前文件个数 4
+[1:21:17][DEBUG][139791223707392][CloudLogger][./include/service.hh:154]	sessionID: 17373072774606437 已保存, 用户id: 3
+[1:21:25][DEBUG][139768198812096][CloudLogger][./include/data.hh:92]	数据管理模块-备份信息初始化成功, 当前文件个数 4
+[1:21:41][DEBUG][139768100812544][CloudLogger][./include/service.hh:154]	sessionID: 173730730113352127 已保存, 用户id: 3
+[1:22:1][DEBUG][140648448700864][CloudLogger][./include/data.hh:92]	数据管理模块-备份信息初始化成功, 当前文件个数 4
+[1:22:13][DEBUG][140648423425792][CloudLogger][./include/service.hh:154]	sessionID: 173730733389999171 已保存, 用户id: 3
+[1:22:44][DEBUG][140230860775872][CloudLogger][./include/data.hh:92]	数据管理模块-备份信息初始化成功, 当前文件个数 4
+[1:25:7][DEBUG][140230827108096][CloudLogger][./include/service.hh:154]	sessionID: 173730750746192696 已保存, 用户id: 3
+[1:26:46][DEBUG][139734786093504][CloudLogger][./include/data.hh:92]	数据管理模块-备份信息初始化成功, 当前文件个数 4
+[1:26:57][DEBUG][139734760818432][CloudLogger][./include/service.hh:154]	sessionID: 173730761748615540 已保存, 用户id: 3
+[1:27:36][DEBUG][140315371430336][CloudLogger][./include/data.hh:92]	数据管理模块-备份信息初始化成功, 当前文件个数 4
+[1:28:25][DEBUG][140315346155264][CloudLogger][./include/service.hh:154]	sessionID: 173730770492839319 已保存, 用户id: 3
+[1:28:37][DEBUG][139893528506816][CloudLogger][./include/data.hh:92]	数据管理模块-备份信息初始化成功, 当前文件个数 4
+[1:32:52][DEBUG][139893478053632][CloudLogger][./include/service.hh:154]	sessionID: 173730797254873634 已保存, 用户id: 3
+[1:34:39][DEBUG][140100324053440][CloudLogger][./include/data.hh:92]	数据管理模块-备份信息初始化成功, 当前文件个数 4
+[1:35:31][DEBUG][140100222580480][CloudLogger][./include/service.hh:154]	sessionID: 173730813121166756 已保存, 用户id: 3
+[1:35:40][DEBUG][140379503382976][CloudLogger][./include/data.hh:92]	数据管理模块-备份信息初始化成功, 当前文件个数 4
