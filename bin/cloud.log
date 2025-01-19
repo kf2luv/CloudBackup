@@ -1,0 +1,5 @@
+[15:9:9][DEBUG][140260212179392][CloudLogger][./include/data.hh:90]	数据管理模块-备份信息初始化成功, 当前文件个数 0
+[15:9:9][DEBUG][140260203689728][CloudLogger][./include/service.hh:51]	数据库连接成功
+[15:9:38][DEBUG][140260186904320][CloudLogger][./include/service.hh:195]	用户上传文件已存入: ./backup_dir/gorder.PNG
+[15:9:49][DEBUG][140260050716416][CloudLogger][./include/hot.hh:101]	非热点文件 ./backup_dir/gorder.PNG, 开始处理
+[15:9:49][DEBUG][140260050716416][CloudLogger][./include/hot.hh:124]	非热点文件 ./pack_dir/gorder.PNG.lz, 处理成功 - 用时: 0
