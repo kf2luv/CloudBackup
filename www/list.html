@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic File Download Links</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+            text-align: center;
+        }
+        #file-list {
+            list-style: none;
+            padding: 0;
+        }
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .file-item:hover {
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+        .file-info {
+            color: #777;
+            font-size: 0.9em;
+        }
+        .file-info span {
+            margin-left: 10px;
+        }
+        .upload-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .upload-link a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #28a745; /* 绿色背景 */
+            color: #ffffff;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        .upload-link a:hover {
+            background-color: #218838; /* 更深的绿色 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Welcome</h1>
+        <ul id="file-list">
+            <!-- 文件下载链接将动态生成并插入此处 -->
+        </ul>
+
+        <div class="upload-link">
+            <a href="uploadShow">Upload File</a>
+        </div>
+    </div>
+
+    <script>
+        // 获取文件列表并动态生成下载链接
+        async function fetchFileList() {
+            try {
+                const response = await fetch('/file-list');
+                const files = await response.json();
+
+                // 获取文件列表容器
+                const fileListUl = document.getElementById('file-list');
+                fileListUl.innerHTML = '';  // 清空之前的内容
+
+                // 遍历文件列表，生成 HTML 结构
+                files.forEach(file => {
+                    // 创建文件项的容器
+                    const fileItemLi = document.createElement('li');
+                    fileItemLi.className = 'file-item';
+
+                    // 创建下载链接
+                    const fileLink = document.createElement('a');
+                    fileLink.href = file.downloadUrl;
+                    fileLink.textContent = file.fileName;
+
+                    // 创建文件信息
+                    const fileInfo = document.createElement('span');
+                    fileInfo.className = 'file-info';
+                    fileInfo.innerHTML = `Size: <strong>${file.fileSize}</strong><span>, Last Modified: <strong>${file.lastModified}</strong></span>`;
+
+                    // 将链接和信息添加到文件项中
+                    fileItemLi.appendChild(fileLink);
+                    fileItemLi.appendChild(fileInfo);
+
+                    // 将文件项添加到文件列表容器中
+                    fileListUl.appendChild(fileItemLi);
+                });
+            } catch (error) {
+                console.error('Error fetching file list:', error);
+            }
+        }
+
+        // 页面加载时获取文件列表
+        window.onload = fetchFileList;
+    </script>
+
+</body>
+</html>

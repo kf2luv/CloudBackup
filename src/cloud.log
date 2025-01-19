@@ -1,0 +1,13 @@
+[13:4:3][DEBUG][140230344532416][CloudLogger][../include/data.hpp:90]	数据管理模块-备份信息初始化成功, 当前文件个数 0
+[13:4:3][DEBUG][140230336042752][CloudLogger][../include/service.hpp:50]	数据库连接成功
+[13:10:3][DEBUG][140230294079232][CloudLogger][../include/service.hpp:194]	用户上传文件已存入: ./backup_dir/仿muduo高并发服务器.md
+[13:10:14][DEBUG][140230170486528][CloudLogger][../include/hot.hpp:101]	非热点文件 ./backup_dir/仿muduo高并发服务器.md, 开始处理
+[13:10:14][DEBUG][140230170486528][CloudLogger][../include/hot.hpp:124]	非热点文件 ./pack_dir/仿muduo高并发服务器.md.lz, 处理成功 - 用时: 0
+[13:11:4][DEBUG][139960659079616][CloudLogger][../include/data.hpp:90]	数据管理模块-备份信息初始化成功, 当前文件个数 1
+[13:11:4][DEBUG][139960650589952][CloudLogger][../include/service.hpp:50]	数据库连接成功
+[13:11:40][DEBUG][139960560641792][CloudLogger][../include/service.hpp:236]	热点文件: ./backup_dir/仿muduo高并发服务器.md 处理成功
+[13:11:51][DEBUG][140230187271936][CloudLogger][../include/hot.hpp:101]	非热点文件 ./backup_dir/仿muduo高并发服务器.md, 开始处理
+[13:11:51][DEBUG][139960426424064][CloudLogger][../include/hot.hpp:101]	非热点文件 ./backup_dir/仿muduo高并发服务器.md, 开始处理
+[13:11:51][DEBUG][139960426424064][CloudLogger][../include/hot.hpp:124]	非热点文件 ./pack_dir/仿muduo高并发服务器.md.lz, 处理成功 - 用时: 0
+[13:46:11][DEBUG][140533607600576][CloudLogger][../include/data.hpp:90]	数据管理模块-备份信息初始化成功, 当前文件个数 1
+[13:46:11][DEBUG][140533599110912][CloudLogger][../include/service.hpp:50]	数据库连接成功
